@@ -73,6 +73,7 @@ class _DashboardState extends State<Dashboard> {
     // Fetch data for all relevant providers when the screen loads
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final userProvider = Provider.of<UserProvider>(context, listen: false);
+      final userPreferencesProvider = Provider.of<UserPreferencesProvider>(context, listen: false);
       if (!userProvider.isAuthenticated) return;
       
       // instantiate DashboardProvider via Provider tree
@@ -80,6 +81,7 @@ class _DashboardState extends State<Dashboard> {
 
       // load cached UI immediately then fetch remote
       await dashboard.fetchDashboardData();
+      await userPreferencesProvider.fetchUserPreferences();
     });
   }
 
