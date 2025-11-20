@@ -209,7 +209,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                         'Are you sure you want to save the time log? The timer stopped at ',
                   ),
                   TextSpan(
-                    text: _formatDurationDifference(startTime!),
+                    text: _formatTime(timerProvider.remainingTime),
                     style: GoogleFonts.openSans(
                       fontWeight: FontWeight.bold,
                       color: Colors.black,

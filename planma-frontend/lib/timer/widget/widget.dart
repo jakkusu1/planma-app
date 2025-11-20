@@ -15,7 +15,7 @@ class CustomWidgets {
               Icon(Icons.timer, color: Colors.green),
               SizedBox(width: 5),
               Text(
-                "Timer Saved Successfully!",
+                "Time Saved Successfully!",
                 style: GoogleFonts.openSans(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
