@@ -28,11 +28,31 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from api.models import CustomUser
 import os
 from django.http import JsonResponse
+from django.utils import timezone
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 
 CACHE_TIMEOUT_SECONDS = 15
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
+    def post(self, request, *args, **kwargs):
+        # Use the original behavior from SimpleJWT
+        response = super().post(request, *args, **kwargs)
+
+        # After successful login, update last_login
+        serializer = self.get_serializer(data=request.data)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except:
+            return response  # If invalid, don't update last_login
+
+        user = serializer.user
+        user.last_login = timezone.now()
+        user.save(update_fields=["last_login"])
+
+        return response
 
 class ActivityViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
